@@ -33,3 +33,12 @@ supabase/
 - The `handle_new_user` trigger auto-creates profiles + wallets rows on signup.
 - Coin awards go through the `award-coins` Edge Function. Correct = +2, Wrong = +1, daily dedup per card.
 - WalletContext provides balance + setBalance across the app. Updated from Edge Function responses.
+
+## Migrations
+Every migration that creates a table in the public schema MUST include GRANTs, 
+or the app (403) and Edge Functions (permission denied 42501) will fail:
+- grant select, insert, update, delete on public.<table> to authenticated; 
+  (read-only tables get only select)
+- grant select, insert, update, delete on public.<table> to service_role; 
+  (for any table an Edge Function touches)
+RLS still controls WHICH rows each role can access; grants just open the door.
