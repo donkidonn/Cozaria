@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=VT323&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #1d1006; }
+  img.px, svg.px { image-rendering: pixelated; }
+  @keyframes lampGlow { 0%,100% { opacity: .55; } 50% { opacity: .9; } }
+  @keyframes zzzFloat { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-22px); opacity: 0; } }
+  @keyframes catBreathe { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.04); } }
+  @keyframes beam { 0%,100% { opacity: .35; } 50% { opacity: .6; } }
+  @keyframes coinSpin { 0%,100% { transform: scaleX(1); } 50% { transform: scaleX(.25); } }
+</style>
+</helmet>
+
+<div style="min-height:100vh; background:#1d1006; background-image: radial-gradient(120% 80% at 50% 0%, #3a2110 0%, #1d1006 60%, #140a03 100%); padding:48px 24px 80px; font-family:'Pixelify Sans', sans-serif; position:relative; overflow:hidden;">
+
+  <!-- ambient sunbeam -->
+  <div style="position:absolute; top:-60px; left:8%; width:280px; height:520px; background:linear-gradient(180deg, rgba(244,213,138,.18), rgba(244,213,138,0)); transform:rotate(14deg); filter:blur(8px); pointer-events:none; animation:beam 7s ease-in-out infinite;"></div>
+  <div style="position:absolute; top:-40px; right:12%; width:200px; height:460px; background:linear-gradient(180deg, rgba(244,213,138,.12), rgba(244,213,138,0)); transform:rotate(-12deg); filter:blur(10px); pointer-events:none; animation:beam 9s ease-in-out infinite;"></div>
+
+  <!-- ===================== BRAND HEADER ===================== -->
+  <div style="max-width:1160px; margin:0 auto 56px; display:flex; flex-direction:column; align-items:center; text-align:center; position:relative; z-index:1;">
+    <div style="display:flex; align-items:center; gap:18px; background:#6E4527; border:4px solid #3A2416; box-shadow: inset 3px 3px 0 #8A5A35, inset -4px -4px 0 #2A1810, 0 8px 0 rgba(0,0,0,.45); padding:18px 30px 22px; border-radius:6px;">
+      <svg class="px" width="56" height="56" viewBox="0 0 16 16" style="flex:none;">
+        <rect x="2" y="2" width="12" height="12" fill="#EFD9AE"/>
+        <rect x="2" y="2" width="12" height="2" fill="#9C3A2B"/>
+        <rect x="7" y="2" width="2" height="12" fill="#3A2416"/>
+        <rect x="3" y="6" width="3" height="1" fill="#4374A0"/><rect x="3" y="8" width="4" height="1" fill="#4374A0"/><rect x="3" y="10" width="2" height="1" fill="#4374A0"/>
+        <rect x="9" y="6" width="4" height="1" fill="#5E8C46"/><rect x="9" y="8" width="3" height="1" fill="#5E8C46"/><rect x="9" y="10" width="4" height="1" fill="#5E8C46"/>
+        <rect x="2" y="13" width="12" height="1" fill="#8A5A35"/>
+      </svg>
+      <div style="text-align:left;">
+        <div style="font-size:54px; font-weight:700; color:#F4D58A; line-height:.9; text-shadow: 3px 3px 0 #3A2416;">Cozaria</div>
+        <div style="font-family:'Nunito',sans-serif; font-style:italic; font-weight:700; font-size:15px; color:#EFD9AE; margin-top:6px; letter-spacing:.3px;">study cozy · earn coins · build your nook</div>
+      </div>
+    </div>
+    <div style="margin-top:18px; font-family:'Nunito',sans-serif; font-size:14px; color:#b89466; max-width:560px;">Visual identity &amp; core UI — a warm, hand-crafted pixel-art study companion.</div>
+  </div>
+
+  <!-- ===================== SECTION 1 · IDENTITY BOARD ===================== -->
+  <div style="max-width:1160px; margin:0 auto; position:relative; z-index:1;">
+    <div style="display:inline-flex; align-items:center; gap:10px; background:#9C3A2B; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #c25543, inset -2px -2px 0 #5e1f15; padding:8px 18px 10px; border-radius:4px; margin-bottom:24px;">
+      <span style="color:#F4D58A; font-size:13px;">01</span>
+      <span style="color:#F3E3C4; font-size:20px; font-weight:700;">Style &amp; Identity</span>
+    </div>
+
+    <!-- wooden panel holding the board -->
+    <div style="background:#5b3a20; background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 6px, rgba(255,255,255,.02) 6px 12px); border:4px solid #3A2416; box-shadow: inset 4px 4px 0 #7a512e, inset -5px -5px 0 #2A1810, 0 10px 0 rgba(0,0,0,.4); border-radius:8px; padding:28px; display:grid; grid-template-columns:1fr 1fr; gap:22px;">
+
+      <!-- COLOR PALETTE -->
+      <div style="grid-column:1 / -1; background:#EFD9AE; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #F6E8C8, inset -2px -2px 0 #d4ba84; border-radius:6px; padding:20px;">
+        <div style="font-size:18px; color:#3A2416; margin-bottom:14px;">COLOR PALETTE</div>
+        <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:12px;">
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#6E4527;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#6E4527</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Deep wood</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#3A2416;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#3A2416</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Dark wood</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#8A5A35;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#8A5A35</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Light wood</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#9C3A2B;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#9C3A2B</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Mahogany</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#E0A53B;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#E0A53B</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Gold / honey</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#F4D58A;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#F4D58A</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Lamp glow</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#EFD9AE;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#EFD9AE</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Parchment</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#F6E8C8;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#F6E8C8</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Light parch</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#A9774B;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#A9774B</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Brick tan</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#4374A0;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#4374A0</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Book blue</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#5E8C46;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#5E8C46</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Plant green</div></div></div>
+          <div style="border:2px solid #3A2416; border-radius:4px; overflow:hidden; box-shadow:0 2px 0 rgba(0,0,0,.2);"><div style="height:46px; background:#F3E3C4;"></div><div style="padding:5px 7px; background:#fff7e4;"><div style="font-size:12px; color:#3A2416;">#F3E3C4</div><div style="font-family:'Nunito',sans-serif; font-size:10px; color:#7a5a30;">Light text</div></div></div>
+        </div>
+      </div>
+
+      <!-- TYPE -->
+      <div style="background:#EFD9AE; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #F6E8C8, inset -2px -2px 0 #d4ba84; border-radius:6px; padding:20px;">
+        <div style="font-size:18px; color:#3A2416; margin-bottom:16px;">TYPE SCALE</div>
+        <div style="border-bottom:2px solid #d4ba84; padding-bottom:12px; margin-bottom:12px;">
+          <div style="font-family:'Nunito',sans-serif; font-size:11px; color:#7a5a30; letter-spacing:.5px; margin-bottom:2px;">PIXELIFY SANS · framing, headings, UI, coins</div>
+          <div style="font-size:40px; color:#3A2416; line-height:1;">Welcome home</div>
+          <div style="font-size:26px; color:#9C3A2B; line-height:1.1; margin-top:6px;">Daily goal · 32 / 60 min</div>
+          <div style="font-size:16px; color:#6E4527; margin-top:6px;">SHOP · FOCUS · STUDY · WORLD</div>
+        </div>
+        <div>
+          <div style="font-family:'Nunito',sans-serif; font-size:11px; color:#7a5a30; letter-spacing:.5px; margin-bottom:4px;">NUNITO · long-form study text (legible)</div>
+          <div style="font-family:'Nunito',sans-serif; font-size:16px; line-height:1.5; color:#3A2416;">The mitochondrion is the powerhouse of the cell, generating most of the cell's supply of ATP used as chemical energy.</div>
+        </div>
+      </div>
+
+      <!-- BUTTONS + STATES -->
+      <div style="background:#EFD9AE; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #F6E8C8, inset -2px -2px 0 #d4ba84; border-radius:6px; padding:20px;">
+        <div style="font-size:18px; color:#3A2416; margin-bottom:16px;">BUTTONS</div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div>
+            <div style="font-family:'Nunito',sans-serif; font-size:11px; color:#7a5a30; letter-spacing:.5px; margin-bottom:8px;">GOLD PLAQUE</div>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <div style="background:#E0A53B; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #F4D58A, inset -2px -2px 0 #9c6b1e; border-radius:4px; padding:10px 18px; color:#3A2416; font-size:16px;">Buy</div>
+              <div style="background:#F4D58A; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #fff0c8, inset -2px -2px 0 #c89638; border-radius:4px; padding:10px 18px; color:#3A2416; font-size:16px; transform:translate(-1px,-1px);">Buy<span style="font-family:Nunito; font-size:10px; color:#7a5a30;"> ·hover</span></div>
+              <div style="background:#bda378; border:3px solid #6b5640; box-shadow: inset 2px 2px 0 #cdb78f; border-radius:4px; padding:10px 18px; color:#7a6a52; font-size:16px; opacity:.7;">Buy<span style="font-family:Nunito; font-size:10px;"> ·off</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'Nunito',sans-serif; font-size:11px; color:#7a5a30; letter-spacing:.5px; margin-bottom:8px;">WOOD PLAQUE</div>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <div style="background:#6E4527; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #8A5A35, inset -2px -2px 0 #2A1810; border-radius:4px; padding:10px 18px; color:#F3E3C4; font-size:16px;">Study</div>
+              <div style="background:#825532; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #a06a3e, inset -2px -2px 0 #3a2416; border-radius:4px; padding:10px 18px; color:#fff0d8; font-size:16px; transform:translate(-1px,-1px);">Study<span style="font-family:Nunito; font-size:10px; color:#d8b98a;"> ·hover</span></div>
+              <div style="background:#4a3320; border:3px solid #2A1810; box-shadow: inset 2px 2px 0 #5a4028; border-radius:4px; padding:10px 18px; color:#9a8260; font-size:16px; opacity:.7;">Study<span style="font-family:Nunito; font-size:10px;"> ·off</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARCHMENT CARD + BEVEL -->
+      <div style="background:#EFD9AE; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #F6E8C8, inset -2px -2px 0 #d4ba84; border-radius:6px; padding:20px;">
+        <div style="font-size:18px; color:#3A2416; margin-bottom:16px;">PARCHMENT CARD</div>
+        <div style="background:#F6E8C8; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #fff7e4, inset -2px -2px 0 #dcc290; border-radius:6px; padding:16px;">
+          <div style="font-size:18px; color:#9C3A2B;">Cozy Reading Nook</div>
+          <div style="font-family:'Nunito',sans-serif; font-size:13px; color:#5a4226; line-height:1.5; margin-top:6px;">A scroll-style content card that sits inside the wooden chrome. Hard 3px pixel border, soft inset bevel — no blur.</div>
+        </div>
+        <div style="font-family:'Nunito',sans-serif; font-size:11px; color:#7a5a30; letter-spacing:.5px; margin:18px 0 8px;">PIXEL BEVEL — carved wood (light top/left · dark bottom/right)</div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <div style="width:64px; height:44px; background:#6E4527; border:3px solid #3A2416; box-shadow: inset 4px 4px 0 #8A5A35, inset -4px -4px 0 #2A1810; border-radius:4px;"></div>
+          <div style="width:64px; height:44px; background:#E0A53B; border:3px solid #3A2416; box-shadow: inset 4px 4px 0 #F4D58A, inset -4px -4px 0 #9c6b1e; border-radius:4px;"></div>
+          <div style="width:64px; height:44px; background:#9C3A2B; border:3px solid #3A2416; box-shadow: inset 4px 4px 0 #c25543, inset -4px -4px 0 #5e1f15; border-radius:4px;"></div>
+        </div>
+      </div>
+
+      <!-- COIN CHIP + BADGES -->
+      <div style="background:#EFD9AE; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #F6E8C8, inset -2px -2px 0 #d4ba84; border-radius:6px; padding:20px;">
+        <div style="font-size:18px; color:#3A2416; margin-bottom:16px;">COIN CHIP &amp; BADGES</div>
+        <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+          <!-- coin chip -->
+          <div style="display:inline-flex; align-items:center; gap:8px; background:#3A2416; border:3px solid #2A1810; box-shadow: inset 2px 2px 0 #5a4028, inset -2px -2px 0 #1a0e05; border-radius:100px; padding:7px 16px 7px 10px;">
+            <div style="width:22px; height:22px; border-radius:50%; background:#E0A53B; border:2px solid #2A1810; box-shadow: inset 2px 2px 0 #F4D58A, inset -2px -2px 0 #9c6b1e; display:flex; align-items:center; justify-content:center; animation:coinSpin 3.5s ease-in-out infinite;"><div style="width:7px;height:7px;border-radius:50%;border:2px solid #9c6b1e;"></div></div>
+            <span style="color:#F4D58A; font-size:20px;">1,240</span>
+          </div>
+          <!-- badges -->
+          <span style="background:#9C3A2B; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #c25543; border-radius:4px; padding:5px 12px; color:#F4D58A; font-size:13px;">NEW</span>
+          <span style="background:#5E8C46; border:2px solid #2c4a22; box-shadow: inset 1px 1px 0 #79a85e; border-radius:4px; padding:5px 12px; color:#eafbe0; font-size:13px;">OWNED ✓</span>
+          <span style="background:#4374A0; border:2px solid #1f3c5a; box-shadow: inset 1px 1px 0 #6b9cc4; border-radius:4px; padding:5px 12px; color:#dff0ff; font-size:13px;">Biology</span>
+          <span style="background:#E0A53B; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F4D58A; border-radius:4px; padding:5px 12px; color:#3A2416; font-size:13px;">★ 7-day streak</span>
+        </div>
+        <div style="font-family:'Nunito',sans-serif; font-size:13px; color:#5a4226; line-height:1.5; margin-top:18px;">Coins are earned per focused minute and spent in the Shop to decorate your nook. The chip is always wood-framed with a spinning pixel coin.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== APP SCREENS ROW ===================== -->
+  <div style="max-width:1160px; margin:64px auto 0; position:relative; z-index:1;">
+    <div style="display:inline-flex; align-items:center; gap:10px; background:#9C3A2B; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #c25543, inset -2px -2px 0 #5e1f15; padding:8px 18px 10px; border-radius:4px; margin-bottom:28px;">
+      <span style="color:#F4D58A; font-size:13px;">02–05</span>
+      <span style="color:#F3E3C4; font-size:20px; font-weight:700;">Core App Screens</span>
+    </div>
+
+    <div style="display:flex; gap:40px; flex-wrap:wrap; justify-content:center; align-items:flex-start;">
+      <!-- SCREEN 2 · HOME/WORLD -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; padding:5px 14px; border-radius:4px;"><span style="color:#F4D58A; font-size:12px;">02</span><span style="color:#F3E3C4; font-size:15px;">Home · World</span></div>
+        <div style="padding:9px; background:#140c05; border-radius:16px; box-shadow: inset 2px 2px 0 #3A2416, inset -2px -2px 0 #000, 0 12px 0 rgba(0,0,0,.45);">
+          <div style="width:340px; height:720px; position:relative; overflow:hidden; border:2px solid #2A1810; border-radius:8px; background:#3A2416; font-family:'Pixelify Sans',sans-serif;">
+            <img class="px" src="assets/room.png" alt="cozy study room" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 34%;">
+            <div style="position:absolute; inset:0; box-shadow: inset 0 0 90px 24px rgba(20,8,0,.55); pointer-events:none;"></div>
+            <div style="position:absolute; left:38%; top:30%; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle, rgba(244,213,138,.45), rgba(244,213,138,0) 70%); pointer-events:none; animation:lampGlow 5s ease-in-out infinite;"></div>
+
+            <!-- status bar -->
+            <div style="position:absolute; top:0; left:0; right:0; height:30px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; background:linear-gradient(180deg, rgba(20,8,0,.55), rgba(20,8,0,0)); z-index:5;">
+              <span style="color:#F3E3C4; font-size:14px; text-shadow:1px 1px 0 #2A1810;">9:41</span>
+              <span style="display:inline-flex; gap:5px; align-items:center;">
+                <span style="display:flex; gap:1px; align-items:flex-end;"><span style="width:3px;height:5px;background:#F3E3C4;"></span><span style="width:3px;height:8px;background:#F3E3C4;"></span><span style="width:3px;height:11px;background:#F3E3C4;"></span></span>
+                <span style="width:20px;height:11px;border:2px solid #F3E3C4;border-radius:2px;display:inline-block;position:relative;"><span style="position:absolute;left:1px;top:1px;bottom:1px;width:11px;background:#5E8C46;"></span></span>
+              </span>
+            </div>
+
+            <!-- top UI bar -->
+            <div style="position:absolute; top:36px; left:12px; right:12px; z-index:5; display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <div style="display:inline-flex; align-items:center; gap:7px; background:#3A2416; border:2px solid #2A1810; box-shadow: inset 1px 1px 0 #5a4028, inset -1px -1px 0 #1a0e05; border-radius:100px; padding:5px 13px 5px 7px;">
+                  <div style="width:19px; height:19px; border-radius:50%; background:#E0A53B; border:2px solid #2A1810; box-shadow: inset 1px 1px 0 #F4D58A, inset -1px -1px 0 #9c6b1e; display:flex; align-items:center; justify-content:center; animation:coinSpin 3.5s ease-in-out infinite;"><div style="width:6px;height:6px;border-radius:50%;border:2px solid #9c6b1e;"></div></div>
+                  <span style="color:#F4D58A; font-size:17px;">1,240</span>
+                </div>
+                <!-- avatar -->
+                <div style="width:42px; height:42px; background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; border-radius:6px; padding:3px;">
+                  <svg class="px" width="100%" height="100%" viewBox="0 0 16 16">
+                    <rect x="0" y="0" width="16" height="16" fill="#cfe0ec"/>
+                    <rect x="4" y="2" width="8" height="3" fill="#E0A53B"/><rect x="3" y="4" width="2" height="7" fill="#E0A53B"/><rect x="11" y="4" width="2" height="7" fill="#E0A53B"/>
+                    <rect x="5" y="4" width="6" height="7" fill="#f0c9a0"/>
+                    <rect x="6" y="6" width="1" height="2" fill="#4374A0"/><rect x="9" y="6" width="1" height="2" fill="#4374A0"/>
+                    <rect x="7" y="9" width="2" height="1" fill="#9C3A2B"/>
+                    <rect x="4" y="11" width="8" height="5" fill="#EFD9AE"/><rect x="7" y="11" width="2" height="5" fill="#9C3A2B"/>
+                  </svg>
+                </div>
+              </div>
+              <!-- daily goal -->
+              <div style="background:#EFD9AE; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F6E8C8, inset -1px -1px 0 #d4ba84; border-radius:100px; padding:6px 12px; display:flex; align-items:center; gap:10px;">
+                <span style="font-size:13px; color:#9C3A2B; white-space:nowrap;">Daily Goal</span>
+                <div style="flex:1; height:11px; background:#5b3a20; border:2px solid #3A2416; border-radius:100px; overflow:hidden; box-shadow:inset 1px 1px 0 #2A1810;"><div style="width:53%; height:100%; background:#E0A53B; box-shadow: inset 0 2px 0 #F4D58A;"></div></div>
+                <span style="font-size:13px; color:#3A2416; white-space:nowrap;">32/60m</span>
+              </div>
+            </div>
+
+            <!-- bottom action bar -->
+            <div style="position:absolute; left:0; right:0; bottom:0; z-index:5; padding:10px 10px 14px; background:linear-gradient(180deg, rgba(20,8,0,0), rgba(20,8,0,.5));">
+              <div style="background:#5b3a20; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #7a512e, inset -2px -2px 0 #2A1810, 0 4px 0 rgba(0,0,0,.4); border-radius:8px; padding:8px; display:grid; grid-template-columns:repeat(4,1fr); gap:7px;">
+                <!-- Study -->
+                <div style="background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; border-radius:5px; padding:8px 0 6px; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                  <svg class="px" width="24" height="24" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="11" fill="#EFD9AE"/><rect x="7" y="3" width="2" height="11" fill="#8A5A35"/><rect x="3" y="5" width="3" height="1" fill="#4374A0"/><rect x="3" y="7" width="4" height="1" fill="#4374A0"/><rect x="10" y="5" width="3" height="1" fill="#9C3A2B"/><rect x="10" y="7" width="4" height="1" fill="#9C3A2B"/><rect x="2" y="3" width="12" height="1" fill="#3A2416"/></svg>
+                  <span style="font-size:12px; color:#F3E3C4;">Study</span>
+                </div>
+                <!-- Focus -->
+                <div style="background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; border-radius:5px; padding:8px 0 6px; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                  <svg class="px" width="24" height="24" viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="2" fill="#8A5A35"/><rect x="3" y="12" width="10" height="2" fill="#8A5A35"/><rect x="4" y="4" width="8" height="2" fill="#F4D58A"/><rect x="6" y="6" width="4" height="2" fill="#E0A53B"/><rect x="7" y="8" width="2" height="1" fill="#E0A53B"/><rect x="6" y="9" width="4" height="3" fill="#E0A53B"/></svg>
+                  <span style="font-size:12px; color:#F3E3C4;">Focus</span>
+                </div>
+                <!-- Shop -->
+                <div style="background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; border-radius:5px; padding:8px 0 6px; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                  <svg class="px" width="24" height="24" viewBox="0 0 16 16"><rect x="4" y="3" width="8" height="2" fill="#8A5A35"/><rect x="3" y="5" width="10" height="9" fill="#9C3A2B"/><rect x="3" y="5" width="10" height="1" fill="#c25543"/><rect x="6" y="7" width="4" height="4" fill="#E0A53B"/><rect x="7" y="8" width="1" height="2" fill="#9c6b1e"/></svg>
+                  <span style="font-size:12px; color:#F3E3C4;">Shop</span>
+                </div>
+                <!-- World (active) -->
+                <div style="background:#E0A53B; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F4D58A, inset -1px -1px 0 #9c6b1e; border-radius:5px; padding:8px 0 6px; display:flex; flex-direction:column; align-items:center; gap:4px;">
+                  <svg class="px" width="24" height="24" viewBox="0 0 16 16"><rect x="7" y="2" width="2" height="2" fill="#5E8C46"/><rect x="6" y="3" width="4" height="2" fill="#5E8C46"/><rect x="3" y="7" width="10" height="7" fill="#9C3A2B"/><rect x="2" y="6" width="12" height="2" fill="#6E4527"/><rect x="6" y="10" width="4" height="4" fill="#3A2416"/><rect x="4" y="8" width="2" height="2" fill="#F4D58A"/><rect x="10" y="8" width="2" height="2" fill="#F4D58A"/></svg>
+                  <span style="font-size:12px; color:#3A2416;">World</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN 3a · FOCUS (focused) -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; padding:5px 14px; border-radius:4px;"><span style="color:#F4D58A; font-size:12px;">03</span><span style="color:#F3E3C4; font-size:15px;">Focus · in session</span></div>
+        <div style="padding:9px; background:#140c05; border-radius:16px; box-shadow: inset 2px 2px 0 #3A2416, inset -2px -2px 0 #000, 0 12px 0 rgba(0,0,0,.45);">
+          <div style="width:340px; height:720px; position:relative; overflow:hidden; border:2px solid #2A1810; border-radius:8px; background:#3A2416; font-family:'Pixelify Sans',sans-serif;">
+            <img class="px" src="assets/room.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 34%; filter:brightness(.62) saturate(.9);">
+            <div style="position:absolute; inset:0; background:radial-gradient(120% 80% at 50% 42%, rgba(20,8,0,.1), rgba(20,8,0,.72)); pointer-events:none;"></div>
+
+            <!-- status bar -->
+            <div style="position:absolute; top:0; left:0; right:0; height:30px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; z-index:5;">
+              <span style="color:#F3E3C4; font-size:14px; text-shadow:1px 1px 0 #2A1810;">9:41</span>
+              <span style="color:#F3E3C4; font-size:12px; text-shadow:1px 1px 0 #2A1810;">do not disturb</span>
+            </div>
+
+            <!-- centered focus panel -->
+            <div style="position:absolute; left:18px; right:18px; top:50%; transform:translateY(-50%); z-index:5;">
+              <div style="background:#5b3a20; border:4px solid #3A2416; box-shadow: inset 3px 3px 0 #7a512e, inset -4px -4px 0 #2A1810, 0 8px 0 rgba(0,0,0,.5); border-radius:10px; padding:16px;">
+                <!-- header -->
+                <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:14px;">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#5E8C46;box-shadow:0 0 8px #79a85e;"></span>
+                  <span style="color:#F4D58A; font-size:16px;">Focused · Biology</span>
+                </div>
+                <!-- parchment timer card -->
+                <div style="background:#F6E8C8; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #fff7e4, inset -2px -2px 0 #dcc290; border-radius:8px; padding:18px 16px; text-align:center;">
+                  <div style="font-family:'Nunito',sans-serif; font-size:11px; letter-spacing:1px; color:#9c7a3e;">TIME REMAINING</div>
+                  <div style="font-size:62px; color:#3A2416; line-height:.95; margin:4px 0 8px; text-shadow:2px 2px 0 #d4ba84;">18:42</div>
+                  <!-- progress dots -->
+                  <div style="display:flex; align-items:center; justify-content:center; gap:7px; margin-bottom:6px;">
+                    <span style="width:14px;height:14px;border-radius:50%;background:#5E8C46;border:2px solid #3A2416;"></span>
+                    <span style="width:14px;height:14px;border-radius:50%;background:#E0A53B;border:2px solid #3A2416;box-shadow:inset 1px 1px 0 #F4D58A;"></span>
+                    <span style="width:14px;height:14px;border-radius:50%;background:#cbb488;border:2px solid #3A2416;"></span>
+                    <span style="width:14px;height:14px;border-radius:50%;background:#cbb488;border:2px solid #3A2416;"></span>
+                  </div>
+                  <div style="font-family:'Nunito',sans-serif; font-size:12px; color:#7a5a30;">Session 2 of 4 · 50 min blocks</div>
+                </div>
+                <!-- pet -->
+                <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin:14px 0 4px;">
+                  <svg class="px" width="52" height="52" viewBox="0 0 16 16" style="animation:catBreathe 3.2s ease-in-out infinite; transform-origin:center bottom;">
+                    <rect x="3" y="3" width="2" height="3" fill="#c47f2a"/><rect x="11" y="3" width="2" height="3" fill="#c47f2a"/>
+                    <rect x="3" y="5" width="10" height="6" fill="#E0A53B"/><rect x="4" y="4" width="8" height="2" fill="#E0A53B"/>
+                    <rect x="4" y="6" width="2" height="2" fill="#3A2416"/><rect x="10" y="6" width="2" height="2" fill="#3A2416"/>
+                    <rect x="7" y="8" width="2" height="1" fill="#9C3A2B"/>
+                    <rect x="4" y="11" width="9" height="3" fill="#c47f2a"/><rect x="12" y="9" width="2" height="5" fill="#c47f2a"/>
+                    <rect x="5" y="6" width="1" height="1" fill="#fff"/><rect x="11" y="6" width="1" height="1" fill="#fff"/>
+                  </svg>
+                  <div style="background:#EFD9AE; border:2px solid #3A2416; border-radius:6px; box-shadow:inset 1px 1px 0 #fff7e4; padding:6px 10px; font-family:'Nunito',sans-serif; font-size:12px; color:#5a4226; font-style:italic;">Pip is studying with you.</div>
+                </div>
+                <!-- actions -->
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                  <div style="flex:1; text-align:center; background:#6E4527; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #8A5A35, inset -2px -2px 0 #2A1810; border-radius:5px; padding:10px 0; color:#F3E3C4; font-size:15px;">Give up</div>
+                  <div style="flex:1; text-align:center; background:#E0A53B; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #F4D58A, inset -2px -2px 0 #9c6b1e; border-radius:5px; padding:10px 0; color:#3A2416; font-size:15px;">Pause</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN 3b · FOCUS (distraction paused) -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; padding:5px 14px; border-radius:4px;"><span style="color:#F4D58A; font-size:12px;">03</span><span style="color:#F3E3C4; font-size:15px;">Focus · distraction paused</span></div>
+        <div style="padding:9px; background:#140c05; border-radius:16px; box-shadow: inset 2px 2px 0 #3A2416, inset -2px -2px 0 #000, 0 12px 0 rgba(0,0,0,.45);">
+          <div style="width:340px; height:720px; position:relative; overflow:hidden; border:2px solid #2A1810; border-radius:8px; background:#3A2416; font-family:'Pixelify Sans',sans-serif;">
+            <img class="px" src="assets/room.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 34%; filter:brightness(.34) saturate(.7);">
+            <div style="position:absolute; inset:0; background:rgba(16,7,0,.55); pointer-events:none;"></div>
+
+            <!-- status bar -->
+            <div style="position:absolute; top:0; left:0; right:0; height:30px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; z-index:5;">
+              <span style="color:#cbb488; font-size:14px; text-shadow:1px 1px 0 #2A1810;">9:43</span>
+              <span style="color:#cbb488; font-size:12px; text-shadow:1px 1px 0 #2A1810;">paused</span>
+            </div>
+
+            <!-- centered paused panel -->
+            <div style="position:absolute; left:18px; right:18px; top:50%; transform:translateY(-50%); z-index:5;">
+              <div style="background:#4a3320; border:4px solid #2A1810; box-shadow: inset 3px 3px 0 #5e4128, inset -4px -4px 0 #1a0e05, 0 8px 0 rgba(0,0,0,.55); border-radius:10px; padding:18px 16px; text-align:center;">
+                <div style="font-size:16px; color:#cbb488; margin-bottom:4px;">Session paused</div>
+                <div style="font-size:48px; color:#9a8260; line-height:1; text-shadow:2px 2px 0 #2A1810;">18:42</div>
+
+                <!-- dozing pet with zzz -->
+                <div style="position:relative; display:flex; justify-content:center; margin:18px 0 14px;">
+                  <div style="position:absolute; left:60%; top:-6px;">
+                    <span style="position:absolute; color:#cbb488; font-size:16px; animation:zzzFloat 2.4s ease-in-out infinite;">z</span>
+                    <span style="position:absolute; left:8px; top:0; color:#cbb488; font-size:20px; animation:zzzFloat 2.4s ease-in-out infinite .8s;">z</span>
+                    <span style="position:absolute; left:18px; top:2px; color:#cbb488; font-size:24px; animation:zzzFloat 2.4s ease-in-out infinite 1.6s;">z</span>
+                  </div>
+                  <svg class="px" width="78" height="58" viewBox="0 0 20 14" style="animation:catBreathe 3.6s ease-in-out infinite; transform-origin:center bottom;">
+                    <!-- curled sleeping cat -->
+                    <rect x="3" y="6" width="14" height="6" fill="#E0A53B"/><rect x="2" y="8" width="16" height="4" fill="#E0A53B"/>
+                    <rect x="3" y="5" width="6" height="2" fill="#c47f2a"/><rect x="2" y="6" width="2" height="2" fill="#c47f2a"/>
+                    <rect x="4" y="4" width="2" height="2" fill="#c47f2a"/><rect x="7" y="4" width="2" height="2" fill="#c47f2a"/>
+                    <rect x="3" y="8" width="2" height="1" fill="#3A2416"/>
+                    <rect x="13" y="7" width="5" height="4" fill="#c47f2a"/><rect x="15" y="6" width="3" height="2" fill="#c47f2a"/>
+                  </svg>
+                </div>
+
+                <!-- message -->
+                <div style="background:#EFD9AE; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #fff7e4, inset -2px -2px 0 #dcc290; border-radius:8px; padding:14px;">
+                  <div style="font-size:17px; color:#9C3A2B; margin-bottom:4px;">Come back when you're ready</div>
+                  <div style="font-family:'Nunito',sans-serif; font-size:13px; color:#5a4226; line-height:1.5;">Pip dozed off while you stepped away. Your coins are safe — pick up right where you left off.</div>
+                </div>
+
+                <div style="text-align:center; background:#E0A53B; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #F4D58A, inset -2px -2px 0 #9c6b1e; border-radius:6px; padding:12px 0; color:#3A2416; font-size:17px; margin-top:14px;">▸ Resume studying</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN 4 · SHOP -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; padding:5px 14px; border-radius:4px;"><span style="color:#F4D58A; font-size:12px;">04</span><span style="color:#F3E3C4; font-size:15px;">Shop</span></div>
+        <div style="padding:9px; background:#140c05; border-radius:16px; box-shadow: inset 2px 2px 0 #3A2416, inset -2px -2px 0 #000, 0 12px 0 rgba(0,0,0,.45);">
+          <div style="width:340px; height:720px; position:relative; overflow:hidden; border:2px solid #2A1810; border-radius:8px; background:#5b3a20; font-family:'Pixelify Sans',sans-serif;">
+            <!-- status bar -->
+            <div style="position:absolute; top:0; left:0; right:0; height:30px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; z-index:6; background:#3A2416;">
+              <span style="color:#F3E3C4; font-size:14px;">9:41</span>
+              <span style="color:#cbb488; font-size:12px;">Cozaria</span>
+            </div>
+
+            <!-- shop window -->
+            <div style="position:absolute; top:30px; left:0; right:0; bottom:0; padding:12px; display:flex; flex-direction:column;">
+              <!-- header -->
+              <div style="background:#6E4527; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #8A5A35, inset -2px -2px 0 #2A1810; border-radius:8px 8px 0 0; padding:11px 14px; display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                  <div style="color:#F4D58A; font-size:20px; line-height:1;">Cozy Shop</div>
+                  <div style="font-family:'Nunito',sans-serif; font-size:11px; color:#d8b98a;">Furniture &amp; decor for your nook</div>
+                </div>
+                <div style="display:inline-flex; align-items:center; gap:7px; background:#3A2416; border:2px solid #2A1810; box-shadow: inset 1px 1px 0 #5a4028; border-radius:100px; padding:5px 12px 5px 6px;">
+                  <div style="width:18px; height:18px; border-radius:50%; background:#E0A53B; border:2px solid #2A1810; box-shadow: inset 1px 1px 0 #F4D58A, inset -1px -1px 0 #9c6b1e; display:flex; align-items:center; justify-content:center;"><div style="width:6px;height:6px;border-radius:50%;border:2px solid #9c6b1e;"></div></div>
+                  <span style="color:#F4D58A; font-size:16px;">{{ coinsStr }}</span>
+                </div>
+              </div>
+              <!-- grid -->
+              <div style="flex:1; background:#5b3a20; border:3px solid #3A2416; border-top:none; box-shadow: inset 2px 0 0 #7a512e, inset -2px -2px 0 #2A1810; border-radius:0 0 8px 8px; padding:11px; display:grid; grid-template-columns:1fr 1fr; gap:10px; align-content:start;">
+
+                <!-- Fern (owned) -->
+                <div style="background:#EFD9AE; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F6E8C8, inset -1px -1px 0 #d4ba84; border-radius:6px; padding:9px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="height:50px; background:#F6E8C8; border:2px solid #3A2416; border-radius:4px; display:flex; align-items:center; justify-content:center;">
+                    <svg class="px" width="34" height="34" viewBox="0 0 16 16"><rect x="6" y="2" width="1" height="5" fill="#5E8C46"/><rect x="9" y="2" width="1" height="5" fill="#5E8C46"/><rect x="4" y="4" width="3" height="1" fill="#5E8C46"/><rect x="9" y="4" width="3" height="1" fill="#5E8C46"/><rect x="7" y="1" width="2" height="6" fill="#79a85e"/><rect x="5" y="7" width="6" height="2" fill="#5E8C46"/><rect x="5" y="9" width="6" height="5" fill="#9C3A2B"/><rect x="5" y="9" width="6" height="1" fill="#c25543"/></svg>
+                  </div>
+                  <div style="font-size:14px; color:#3A2416; line-height:1;">Potted Fern</div>
+                  {{ buyFern }}
+                </div>
+
+                <!-- Lamp -->
+                <div style="background:#EFD9AE; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F6E8C8, inset -1px -1px 0 #d4ba84; border-radius:6px; padding:9px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="height:50px; background:#F6E8C8; border:2px solid #3A2416; border-radius:4px; display:flex; align-items:center; justify-content:center;">
+                    <svg class="px" width="34" height="34" viewBox="0 0 16 16"><rect x="5" y="2" width="6" height="4" fill="#9C3A2B"/><rect x="5" y="2" width="6" height="1" fill="#c25543"/><rect x="4" y="6" width="8" height="1" fill="#E0A53B"/><rect x="6" y="6" width="4" height="3" fill="#F4D58A"/><rect x="7" y="7" width="2" height="6" fill="#8A5A35"/><rect x="5" y="13" width="6" height="2" fill="#6E4527"/></svg>
+                  </div>
+                  <div style="font-size:14px; color:#3A2416; line-height:1;">Brass Lamp</div>
+                  {{ buyLamp }}
+                </div>
+
+                <!-- Rug -->
+                <div style="background:#EFD9AE; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F6E8C8, inset -1px -1px 0 #d4ba84; border-radius:6px; padding:9px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="height:50px; background:#F6E8C8; border:2px solid #3A2416; border-radius:4px; display:flex; align-items:center; justify-content:center;">
+                    <svg class="px" width="38" height="34" viewBox="0 0 18 16"><rect x="2" y="4" width="14" height="8" fill="#9C3A2B"/><rect x="2" y="4" width="14" height="1" fill="#c25543"/><rect x="3" y="5" width="12" height="6" fill="#9C3A2B" stroke="#E0A53B"/><rect x="4" y="6" width="10" height="4" fill="none" stroke="#E0A53B" stroke-width="1"/><rect x="2" y="3" width="14" height="1" fill="#E0A53B"/><rect x="2" y="12" width="14" height="1" fill="#E0A53B"/></svg>
+                  </div>
+                  <div style="font-size:14px; color:#3A2416; line-height:1;">Mahogany Rug</div>
+                  {{ buyRug }}
+                </div>
+
+                <!-- Teacup -->
+                <div style="background:#EFD9AE; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F6E8C8, inset -1px -1px 0 #d4ba84; border-radius:6px; padding:9px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="height:50px; background:#F6E8C8; border:2px solid #3A2416; border-radius:4px; display:flex; align-items:center; justify-content:center;">
+                    <svg class="px" width="34" height="34" viewBox="0 0 16 16"><rect x="7" y="2" width="1" height="3" fill="#cbb488"/><rect x="9" y="2" width="1" height="3" fill="#cbb488"/><rect x="4" y="7" width="8" height="5" fill="#EFD9AE"/><rect x="4" y="7" width="8" height="1" fill="#fff7e4"/><rect x="12" y="8" width="2" height="2" fill="#EFD9AE"/><rect x="5" y="8" width="6" height="3" fill="#9C3A2B"/><rect x="3" y="12" width="10" height="2" fill="#cbb488"/></svg>
+                  </div>
+                  <div style="font-size:14px; color:#3A2416; line-height:1;">Teacup Set</div>
+                  {{ buyTeacup }}
+                </div>
+
+                <!-- Globe -->
+                <div style="background:#EFD9AE; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F6E8C8, inset -1px -1px 0 #d4ba84; border-radius:6px; padding:9px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="height:50px; background:#F6E8C8; border:2px solid #3A2416; border-radius:4px; display:flex; align-items:center; justify-content:center;">
+                    <svg class="px" width="34" height="34" viewBox="0 0 16 16"><rect x="4" y="2" width="8" height="8" fill="#4374A0"/><rect x="5" y="1" width="6" height="10" fill="#4374A0"/><rect x="6" y="3" width="3" height="2" fill="#5E8C46"/><rect x="9" y="6" width="2" height="2" fill="#5E8C46"/><rect x="5" y="6" width="2" height="1" fill="#5E8C46"/><rect x="7" y="11" width="2" height="2" fill="#6E4527"/><rect x="5" y="13" width="6" height="1" fill="#6E4527"/></svg>
+                  </div>
+                  <div style="font-size:14px; color:#3A2416; line-height:1;">World Globe</div>
+                  {{ buyGlobe }}
+                </div>
+
+                <!-- Clock -->
+                <div style="background:#EFD9AE; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #F6E8C8, inset -1px -1px 0 #d4ba84; border-radius:6px; padding:9px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="height:50px; background:#F6E8C8; border:2px solid #3A2416; border-radius:4px; display:flex; align-items:center; justify-content:center;">
+                    <svg class="px" width="30" height="34" viewBox="0 0 14 16"><rect x="4" y="1" width="6" height="14" fill="#6E4527"/><rect x="4" y="1" width="6" height="1" fill="#8A5A35"/><rect x="5" y="3" width="4" height="4" fill="#EFD9AE"/><rect x="6" y="4" width="1" height="2" fill="#3A2416"/><rect x="6" y="5" width="2" height="1" fill="#3A2416"/><rect x="6" y="9" width="2" height="4" fill="#E0A53B"/></svg>
+                  </div>
+                  <div style="font-size:14px; color:#3A2416; line-height:1;">Grand Clock</div>
+                  {{ buyClock }}
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCREEN 5 · REVIEWER/FLASHCARD -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#6E4527; border:2px solid #3A2416; box-shadow: inset 1px 1px 0 #8A5A35, inset -1px -1px 0 #2A1810; padding:5px 14px; border-radius:4px;"><span style="color:#F4D58A; font-size:12px;">05</span><span style="color:#F3E3C4; font-size:15px;">Reviewer · tap card to flip</span></div>
+        <div style="padding:9px; background:#140c05; border-radius:16px; box-shadow: inset 2px 2px 0 #3A2416, inset -2px -2px 0 #000, 0 12px 0 rgba(0,0,0,.45);">
+          <div style="width:340px; height:720px; position:relative; overflow:hidden; border:2px solid #2A1810; border-radius:8px; background:#5b3a20; font-family:'Pixelify Sans',sans-serif;">
+            <!-- status bar -->
+            <div style="position:absolute; top:0; left:0; right:0; height:30px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; z-index:6; background:#3A2416;">
+              <span style="color:#F3E3C4; font-size:14px;">9:41</span>
+              <span style="color:#cbb488; font-size:12px;">Reviewer</span>
+            </div>
+
+            <div style="position:absolute; top:30px; left:0; right:0; bottom:0; padding:12px; display:flex; flex-direction:column;">
+              <!-- deck header -->
+              <div style="background:#6E4527; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #8A5A35, inset -2px -2px 0 #2A1810; border-radius:8px; padding:10px 13px; display:flex; align-items:center; justify-content:space-between;">
+                <div>
+                  <div style="font-family:'Nunito',sans-serif; font-size:10px; letter-spacing:1px; color:#d8b98a;">DECK</div>
+                  <div style="color:#F4D58A; font-size:17px; line-height:1;">Biology · Cells</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="background:#E0A53B; border:2px solid #3A2416; box-shadow:inset 1px 1px 0 #F4D58A; border-radius:4px; padding:3px 9px; color:#3A2416; font-size:13px;">★ 7</span>
+                  <span style="background:#3A2416; border:2px solid #2A1810; box-shadow:inset 1px 1px 0 #5a4028; border-radius:4px; padding:3px 9px; color:#F4D58A; font-size:13px;">3/20</span>
+                </div>
+              </div>
+
+              <!-- progress track -->
+              <div style="height:9px; background:#3A2416; border:2px solid #2A1810; border-radius:100px; margin:9px 2px; overflow:hidden;"><div style="width:15%; height:100%; background:#5E8C46; box-shadow:inset 0 2px 0 #79a85e;"></div></div>
+
+              <!-- flip card -->
+              <div onClick="{{ toggleFlip }}" style="flex:1; position:relative; cursor:pointer; margin:4px 0;">
+
+                  <!-- FRONT -->
+                  <div style="position:absolute; inset:0; opacity:{{ frontOp }}; pointer-events:{{ frontEvents }}; transition:opacity .35s ease; background:#EFD9AE; border:4px solid #3A2416; box-shadow: inset 3px 3px 0 #F6E8C8, inset -3px -3px 0 #d4ba84, 0 6px 0 rgba(0,0,0,.4); border-radius:10px; padding:22px; display:flex; flex-direction:column; overflow:hidden;">
+                    <div style="position:absolute; left:50%; top:14px; bottom:14px; width:2px; background:repeating-linear-gradient(180deg,#d4ba84 0 4px, transparent 4px 8px); transform:translateX(-50%);"></div>
+                    <div style="position:absolute; top:0; left:0; width:0; height:0; border-top:22px solid #d4ba84; border-right:22px solid transparent; opacity:.6;"></div>
+                    <span style="align-self:center; background:#4374A0; border:2px solid #1f3c5a; box-shadow:inset 1px 1px 0 #6b9cc4; border-radius:4px; padding:4px 14px; color:#dff0ff; font-size:13px; margin-bottom:auto;">QUESTION</span>
+                    <div style="font-family:'Nunito',sans-serif; font-weight:700; font-size:24px; line-height:1.4; color:#3A2416; text-align:center; margin:auto 0;">What is the primary function of the mitochondria?</div>
+                    <div style="margin-top:auto; text-align:center; font-family:'Nunito',sans-serif; font-style:italic; font-size:12px; color:#9c7a3e;">{{ flipHint }}</div>
+                  </div>
+
+                  <!-- BACK -->
+                  <div style="position:absolute; inset:0; opacity:{{ backOp }}; pointer-events:{{ backEvents }}; transition:opacity .35s ease; background:#F6E8C8; border:4px solid #3A2416; box-shadow: inset 3px 3px 0 #fff7e4, inset -3px -3px 0 #dcc290, 0 6px 0 rgba(0,0,0,.4); border-radius:10px; padding:22px; display:flex; flex-direction:column; overflow:hidden;">
+                    <div style="position:absolute; left:50%; top:14px; bottom:14px; width:2px; background:repeating-linear-gradient(180deg,#dcc290 0 4px, transparent 4px 8px); transform:translateX(-50%);"></div>
+                    <span style="align-self:center; background:#5E8C46; border:2px solid #2c4a22; box-shadow:inset 1px 1px 0 #79a85e; border-radius:4px; padding:4px 14px; color:#eafbe0; font-size:13px; margin-bottom:14px;">ANSWER</span>
+                    <div style="font-family:'Nunito',sans-serif; font-weight:600; font-size:18px; line-height:1.55; color:#3A2416; margin:auto 0;">They generate most of the cell's <strong style="color:#9C3A2B;">ATP</strong> through aerobic respiration — the cell's main energy currency. Often called the <em>powerhouse of the cell</em>.</div>
+                    <div style="margin-top:auto; text-align:center; font-family:'Nunito',sans-serif; font-style:italic; font-size:12px; color:#9c7a3e;">{{ flipHint }}</div>
+                  </div>
+
+              </div>
+
+              <!-- rating buttons -->
+              <div style="display:flex; gap:8px; margin-top:4px;">
+                <div style="flex:1; text-align:center; background:#9C3A2B; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #c25543, inset -2px -2px 0 #5e1f15; border-radius:6px; padding:9px 0; color:#F4D58A; font-size:14px;">Again</div>
+                <div style="flex:1; text-align:center; background:#6E4527; border:3px solid #3A2416; box-shadow: inset 2px 2px 0 #8A5A35, inset -2px -2px 0 #2A1810; border-radius:6px; padding:9px 0; color:#F3E3C4; font-size:14px;">Good</div>
+                <div style="flex:1; text-align:center; background:#5E8C46; border:3px solid #2c4a22; box-shadow: inset 2px 2px 0 #79a85e, inset -2px -2px 0 #233d1a; border-radius:6px; padding:9px 0; color:#eafbe0; font-size:14px;">Easy</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    coins: 1240,
+    flipped: false,
+    owned: { fern: true, rug: false, lamp: false, clock: false, teacup: false, globe: false },
+  };
+
+  buy(key, price) {
+    this.setState(s => {
+      if (s.owned[key] || s.coins < price) return null;
+      return { coins: s.coins - price, owned: { ...s.owned, [key]: true } };
+    });
+  }
+
+  coinDot(size) {
+    const k = size / 19;
+    return React.createElement('div', { style: {
+      width: size + 'px', height: size + 'px', borderRadius: '50%', background: '#E0A53B',
+      border: '2px solid #2A1810', boxShadow: 'inset 1px 1px 0 #F4D58A, inset -1px -1px 0 #9c6b1e',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none'
+    } }, React.createElement('div', { style: { width: Math.round(6*k) + 'px', height: Math.round(6*k) + 'px', borderRadius: '50%', border: '2px solid #9c6b1e' } }));
+  }
+
+  makeBuyBtn(key, price) {
+    const owned = this.state.owned[key];
+    const afford = this.state.coins >= price;
+    if (owned) {
+      return React.createElement('div', { style: {
+        textAlign: 'center', background: '#5E8C46', border: '2px solid #2c4a22',
+        boxShadow: 'inset 1px 1px 0 #79a85e, inset -1px -1px 0 #233d1a', borderRadius: '5px',
+        padding: '7px 0', color: '#eafbe0', fontSize: '14px', fontFamily: "'Pixelify Sans',sans-serif"
+      } }, 'Owned \u2713');
+    }
+    return React.createElement('div', {
+      onClick: () => this.buy(key, price),
+      style: {
+        cursor: afford ? 'pointer' : 'default', textAlign: 'center',
+        background: afford ? '#E0A53B' : '#bda378', border: '2px solid ' + (afford ? '#3A2416' : '#6b5640'),
+        boxShadow: afford ? 'inset 1px 1px 0 #F4D58A, inset -1px -1px 0 #9c6b1e' : 'inset 1px 1px 0 #cdb78f',
+        borderRadius: '5px', padding: '7px 0', color: afford ? '#3A2416' : '#7a6a52',
+        fontSize: '14px', fontFamily: "'Pixelify Sans',sans-serif", opacity: afford ? 1 : .7,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
+      }
+    }, [
+      this.coinDot(15),
+      React.createElement('span', { key: 't' }, String(price))
+    ]);
+  }
+
+  renderVals() {
+    return {
+      coinsStr: this.state.coins.toLocaleString(),
+      frontOp: this.state.flipped ? 0 : 1,
+      backOp: this.state.flipped ? 1 : 0,
+      frontEvents: this.state.flipped ? 'none' : 'auto',
+      backEvents: this.state.flipped ? 'auto' : 'none',
+      toggleFlip: () => this.setState(s => ({ flipped: !s.flipped })),
+      flipHint: this.state.flipped ? '↺ Tap card for question' : 'Tap card to reveal answer',
+      buyFern: this.makeBuyBtn('fern', 120),
+      buyLamp: this.makeBuyBtn('lamp', 180),
+      buyRug: this.makeBuyBtn('rug', 240),
+      buyClock: this.makeBuyBtn('clock', 600),
+      buyTeacup: this.makeBuyBtn('teacup', 90),
+      buyGlobe: this.makeBuyBtn('globe', 320),
+    };
+  }
+}
+</script>
+</body>
+</html>

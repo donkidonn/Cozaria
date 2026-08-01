@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  /* Cozaria palette */
+  --color-wood: #6E4527;
+  --color-wood-dark: #3A2416;
+  --color-wood-light: #8A5A35;
+  --color-mahogany: #9C3A2B;
+  --color-gold: #E0A53B;
+  --color-gold-glow: #F4D58A;
+  --color-parchment: #EFD9AE;
+  --color-parchment-light: #F6E8C8;
+  --color-brick: #A9774B;
+  --color-blue: #4374A0;
+  --color-green: #5E8C46;
+  --color-text-light: #F3E3C4;
+
+  /* Fonts */
+  --font-heading: "Pixelify Sans", cursive;
+  --font-body: "Nunito", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-wood-dark);
+  color: var(--color-text-light);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
