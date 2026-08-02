@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
+import { RoomCanvas } from '../../game'
 
 interface OwnedItemWithDetails {
   id: string
@@ -53,28 +54,6 @@ export function WorldPage() {
 
   useEffect(() => { load() }, [load])
 
-  if (loading) {
-    return (
-      <div className="flex flex-1 items-center justify-center">
-        <p className="font-heading text-xl text-gold-glow">Loading your room…</p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4">
-        <p className="font-body text-mahogany">{error}</p>
-        <button
-          onClick={() => { setLoading(true); load() }}
-          className="rounded-lg bg-gold px-4 py-2 font-heading text-sm font-bold text-wood-dark hover:bg-gold-glow"
-        >
-          Retry
-        </button>
-      </div>
-    )
-  }
-
   return (
     <>
       <div className="mb-6">
@@ -84,7 +63,27 @@ export function WorldPage() {
         </p>
       </div>
 
-      {items.length === 0 ? (
+      <div className="mb-8 flex justify-center">
+        <RoomCanvas />
+      </div>
+
+      <h3 className="mb-4 font-heading text-xl text-gold-glow">Inventory</h3>
+
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <p className="font-heading text-xl text-gold-glow">Loading your items…</p>
+        </div>
+      ) : error ? (
+        <div className="flex flex-col items-center justify-center gap-4 py-12">
+          <p className="font-body text-mahogany">{error}</p>
+          <button
+            onClick={() => { setLoading(true); load() }}
+            className="rounded-lg bg-gold px-4 py-2 font-heading text-sm font-bold text-wood-dark hover:bg-gold-glow"
+          >
+            Retry
+          </button>
+        </div>
+      ) : items.length === 0 ? (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed border-wood-light p-12">
           <p className="font-heading text-2xl text-parchment">No items yet</p>
           <p className="font-body text-sm text-brick">
