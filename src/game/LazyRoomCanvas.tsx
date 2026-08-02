@@ -13,7 +13,8 @@ const RoomCanvasImpl = lazy(() =>
  * Public room view. Renders a correctly-sized placeholder while the Phaser
  * chunk downloads, so the page never reflows when the canvas appears.
  */
-export function RoomCanvas({ room = STARTER_ROOM, scale = ROOM_SCALE }: RoomCanvasProps) {
+export function RoomCanvas(props: RoomCanvasProps) {
+  const { room = STARTER_ROOM, scale = ROOM_SCALE } = props
   const { width, height } = roomPixelSize(room, scale)
 
   const placeholder = (
@@ -27,7 +28,7 @@ export function RoomCanvas({ room = STARTER_ROOM, scale = ROOM_SCALE }: RoomCanv
 
   return (
     <Suspense fallback={placeholder}>
-      <RoomCanvasImpl room={room} scale={scale} />
+      <RoomCanvasImpl {...props} />
     </Suspense>
   )
 }
