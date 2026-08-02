@@ -1,16 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { RoomCanvas, getSprite } from '../../game'
-import type { FurnitureLayer, PlacedItem, PlacementDraft } from '../../game'
+import type { PlacedItem, PlacementDraft } from '../../game'
 import { fetchOwnedRoomItems, savePlacement } from './api'
 import type { OwnedRoomItem } from './api'
-import { SpriteThumb } from './SpriteThumb'
-
-/** Plain-English hint for what a piece stacks with, shown on each shelf card. */
-const LAYER_HINT: Record<FurnitureLayer, string> = {
-  floor: 'goes under',
-  furniture: 'stands on floor',
-  surface: 'sits on top',
-}
+import { ItemSprite, LAYER_HINT, formatFootprint } from '../../components/ui/ItemSprite'
 
 export function WorldPage() {
   const [items, setItems] = useState<OwnedRoomItem[]>([])
@@ -132,7 +125,7 @@ export function WorldPage() {
           <div className="min-h-[3.25rem]">
             {draft && draftItem ? (
               <div className="flex flex-wrap items-center gap-3 rounded-lg border-2 border-gold bg-wood px-4 py-2">
-                <SpriteThumb spriteKey={draft.spriteKey} size={32} />
+                <ItemSprite spriteKey={draft.spriteKey} size={32} />
                 <span className="font-heading text-sm text-gold-glow">
                   Placing {draftItem.name}
                 </span>
@@ -214,13 +207,13 @@ export function WorldPage() {
                           : 'border-wood-light bg-wood hover:border-gold-glow'
                       } disabled:cursor-not-allowed disabled:opacity-50`}
                     >
-                      <SpriteThumb spriteKey={item.spriteKey} size={56} />
+                      <ItemSprite spriteKey={item.spriteKey} size={72} />
                       <span className="text-center font-heading text-xs text-gold-glow">
                         {item.name}
                       </span>
                       {sprite && (
-                        <span className="font-body text-[0.65rem] text-brick">
-                          {sprite.widthTiles}×{sprite.heightTiles} · {LAYER_HINT[sprite.layer]}
+                        <span className="text-center font-body text-[0.65rem] text-brick">
+                          {formatFootprint(sprite)} · {LAYER_HINT[sprite.layer]}
                         </span>
                       )}
                     </button>

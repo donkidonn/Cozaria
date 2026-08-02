@@ -1,15 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useWallet } from '../../lib/WalletContext'
+import { getSprite } from '../../game'
+import { ItemSprite, LAYER_HINT, formatFootprint } from '../../components/ui/ItemSprite'
 import type { ShopItem } from './types'
 import { fetchShopItems, fetchOwnedItems, buyItem } from './api'
-
-const CATEGORY_ICONS: Record<string, string> = {
-  furniture: '🪑',
-  lighting: '💡',
-  decor: '🖼',
-  storage: '📦',
-  rare: '✨',
-}
 
 export function ShopPage() {
   const { balance, setBalance } = useWallet()
@@ -106,7 +100,7 @@ export function ShopPage() {
           const owned = ownedIds.has(item.id)
           const buying = buyingId === item.id
           const canAfford = (balance ?? 0) >= item.price
-          const icon = CATEGORY_ICONS[item.category ?? ''] ?? '📦'
+          const sprite = getSprite(item.sprite_key)
 
           return (
             <div
@@ -117,14 +111,22 @@ export function ShopPage() {
                   : 'border-wood-light bg-wood hover:border-gold'
               }`}
             >
-              {/* Placeholder sprite */}
-              <div className="mb-3 flex h-20 items-center justify-center rounded-lg bg-parchment/20">
-                <span className="text-3xl">{icon}</span>
+              {/* 120 is deliberate: the tallest sprites (globe, clock) are 120px
+                  native, so at this box size most items land at a clean 1x. */}
+              <div className="mb-3 flex items-center justify-center rounded-lg bg-parchment/20 py-2">
+                <ItemSprite spriteKey={item.sprite_key} size={120} />
               </div>
 
               <h3 className="mb-1 font-heading text-sm text-gold-glow line-clamp-1">
                 {item.name}
               </h3>
+
+              {sprite && (
+                <p className="mb-2 font-body text-[0.65rem] text-brick">
+                  {formatFootprint(sprite)} tiles · {LAYER_HINT[sprite.layer]}
+                </p>
+              )}
+
               {item.description && (
                 <p className="mb-3 font-body text-xs text-parchment line-clamp-2">
                   {item.description}
