@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
-import { ROOM_BACKDROP, ROOM_SCALE, TILE_SIZE } from './config'
-import { STARTER_ROOM, roomSize } from './rooms'
+import { ROOM_BACKDROP, ROOM_SCALE } from './config'
+import { STARTER_ROOM } from './rooms'
 import type { RoomDefinition } from './rooms'
 import type { PlacedItem, PlacementDraft } from './placement'
 import { ROOM_SCENE_KEY, RoomScene } from './scenes/RoomScene'
@@ -21,9 +21,15 @@ export interface RoomGameHandle {
   setPlacedItems(items: PlacedItem[]): void
   /** Attach an item to the cursor (or pass null to stop placing). */
   setDraft(draft: PlacementDraft | null): void
+  /** Fit the canvas to a new container size, in CSS pixels. */
+  resize(cssWidth: number, cssHeight: number): void
   /** Tear down the canvas. Safe to call once; React cleanup does this. */
   destroy(): void
 }
+
+/** Only used if the container hasn't been laid out yet when the game boots. */
+const DEFAULT_VIEW_WIDTH = 960
+const DEFAULT_VIEW_HEIGHT = 600
 
 export interface RoomGameOptions {
   /** Room to render. Defaults to the starter room. */
@@ -42,7 +48,24 @@ export function createRoomGame(
 ): RoomGameHandle {
   const room = options.room ?? STARTER_ROOM
   const zoom = Math.max(1, Math.round(options.scale ?? ROOM_SCALE))
-  const { cols, rows } = roomSize(room)
+
+  /**
+   * Logical (pre-zoom) canvas size for a container measured in CSS pixels.
+   *
+   * Flooring keeps the canvas an exact multiple of the zoom, so one art pixel
+   * is always exactly `zoom` screen pixels. The cost is up to `zoom - 1` px of
+   * container left uncovered, which the parent's background absorbs — far
+   * better than a fractional scale, which would smear the pixel art.
+   */
+  const logicalSize = (cssWidth: number, cssHeight: number) => ({
+    width: Math.max(1, Math.floor(cssWidth / zoom)),
+    height: Math.max(1, Math.floor(cssHeight / zoom)),
+  })
+
+  const initial = logicalSize(
+    parent.clientWidth || DEFAULT_VIEW_WIDTH,
+    parent.clientHeight || DEFAULT_VIEW_HEIGHT,
+  )
 
   // Read through refs so React can swap handlers without rebuilding the game.
   const scene = new RoomScene(room, {
@@ -58,9 +81,12 @@ export function createRoomGame(
     pixelArt: true,
     backgroundColor: ROOM_BACKDROP,
     scale: {
+      // NONE + an explicit resize() on container changes: the canvas is a
+      // window onto the room, so it takes the container's size rather than
+      // the room's, and the camera decides which part shows.
       mode: Phaser.Scale.NONE,
-      width: cols * TILE_SIZE,
-      height: rows * TILE_SIZE,
+      width: initial.width,
+      height: initial.height,
       // Whole-number zoom only — see ROOM_SCALE in config.ts.
       zoom,
     },
@@ -121,6 +147,13 @@ export function createRoomGame(
       const live = liveScene()
       if (live) live.setDraft(draft)
       else pendingDraft = draft
+    },
+
+    resize(cssWidth: number, cssHeight: number) {
+      if (disposed || cssWidth <= 0 || cssHeight <= 0) return
+      const { width, height } = logicalSize(cssWidth, cssHeight)
+      // Safe before boot too: ScaleManager stores the size and applies it.
+      game.scale.resize(width, height)
     },
 
     destroy() {

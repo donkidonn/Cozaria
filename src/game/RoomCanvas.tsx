@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { createRoomGame } from './bridge'
 import type { RoomGameHandle } from './bridge'
 import { ROOM_SCALE } from './config'
-import { STARTER_ROOM, roomPixelSize } from './rooms'
+import { STARTER_ROOM } from './rooms'
 import type { RoomCanvasProps } from './RoomCanvasProps'
 
 const NO_ITEMS: never[] = []
@@ -11,6 +11,9 @@ const NO_ITEMS: never[] = []
  * Mounts the Phaser room inside React. This component owns the whole lifecycle
  * and is deliberately the only React file that knows the game exists — it talks
  * to it exclusively through the bridge handle.
+ *
+ * The canvas fills whatever box it's given; the room is larger than that box
+ * and the camera crops it, so this component never sizes itself from the room.
  */
 export function RoomCanvas({
   room = STARTER_ROOM,
@@ -39,7 +42,16 @@ export function RoomCanvas({
     })
     gameRef.current = handle
 
+    // Follow the container: window resizes, the shelf drawer opening, the
+    // right panel appearing — all of it just changes this box.
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      handle.resize(width, height)
+    })
+    observer.observe(host)
+
     return () => {
+      observer.disconnect()
       gameRef.current = null
       handle.destroy()
     }
@@ -58,14 +70,11 @@ export function RoomCanvas({
     gameRef.current?.setDraft(draft)
   }, [draft])
 
-  const { width, height } = roomPixelSize(room, scale)
-
   return (
     <div
       ref={hostRef}
-      // Reserve the exact canvas box so the page doesn't jump while Phaser boots.
-      style={{ width, height, cursor: draft ? 'copy' : 'default' }}
-      className="max-w-full overflow-hidden rounded-xl border-2 border-wood-light bg-wood-dark [&>canvas]:block"
+      style={{ cursor: draft ? 'copy' : 'grab' }}
+      className="absolute inset-0 overflow-hidden bg-wood-dark [&>canvas]:block"
       aria-label={`${room.name} — cozy room view`}
     />
   )

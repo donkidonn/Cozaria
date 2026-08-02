@@ -11,6 +11,16 @@ export const ROOM_SCENE_KEY = 'RoomScene'
 const GHOST_VALID = 0x5e8c46 // `green` palette token
 const GHOST_INVALID = 0x9c3a2b // `mahogany` palette token
 
+/** World px/second the arrow keys scroll the camera. */
+const PAN_KEY_SPEED = 420
+
+/**
+ * How far the pointer may travel during a press and still count as a click.
+ * Below this a shaky hand still places furniture; above it the gesture is a
+ * pan and placement is suppressed.
+ */
+const PAN_CLICK_SLOP = 4
+
 /** What the scene reports back out. The bridge forwards these to React. */
 export interface RoomSceneCallbacks {
   onPlace(ownedItemId: string, col: number, row: number): void
@@ -35,6 +45,14 @@ export class RoomScene extends Phaser.Scene {
   private hoverCol = -1
   private hoverRow = -1
 
+  // Drag-to-pan bookkeeping. A press only counts as a click if the pointer
+  // never travelled far enough to be a drag.
+  private panning = false
+  private panMoved = false
+  private panLastX = 0
+  private panLastY = 0
+  private cursors?: Phaser.Types.Input.Keyboard.CursorKeys
+
   constructor(room: RoomDefinition, callbacks: RoomSceneCallbacks) {
     super(ROOM_SCENE_KEY)
     this.room = room
@@ -50,11 +68,76 @@ export class RoomScene extends Phaser.Scene {
     this.furnitureLayer = this.add.container(0, 0)
     this.ghostLayer = this.add.container(0, 0)
 
-    this.input.on(Phaser.Input.Events.POINTER_MOVE, this.handlePointerMove, this)
     this.input.on(Phaser.Input.Events.POINTER_DOWN, this.handlePointerDown, this)
+    this.input.on(Phaser.Input.Events.POINTER_MOVE, this.handlePointerMove, this)
+    this.input.on(Phaser.Input.Events.POINTER_UP, this.handlePointerUp, this)
+    // A pointer released outside the canvas must not leave us stuck panning.
+    this.input.on(Phaser.Input.Events.POINTER_UP_OUTSIDE, this.endPan, this)
+
+    this.cursors = this.input.keyboard?.createCursorKeys()
+    // Without this the arrow keys scroll the page instead of the room. The
+    // game only exists on /world, which has no text inputs, so capturing them
+    // here can't steal typing from anything.
+    this.input.keyboard?.addCapture('UP,DOWN,LEFT,RIGHT')
+
+    this.scale.on(Phaser.Scale.Events.RESIZE, this.clampScroll, this)
 
     this.drawRoom()
     this.drawFurniture()
+    this.centreCamera()
+  }
+
+  // ── camera ────────────────────────────────────────────────
+
+  /** Room size in world pixels. */
+  private roomPixels(): { width: number; height: number } {
+    const { cols, rows } = roomSize(this.room)
+    return { width: cols * TILE_SIZE, height: rows * TILE_SIZE }
+  }
+
+  private centreCamera(): void {
+    const cam = this.cameras.main
+    const { width, height } = this.roomPixels()
+    cam.scrollX = (width - cam.width) / 2
+    cam.scrollY = (height - cam.height) / 2
+    this.clampScroll()
+  }
+
+  /**
+   * Keeps the view inside the room.
+   *
+   * Clamped by hand rather than via camera.setBounds because Phaser's own
+   * clamp pins a too-small room to a corner; when the room is narrower than
+   * the viewport we want it centred instead.
+   */
+  private clampScroll(): void {
+    const cam = this.cameras.main
+    const { width, height } = this.roomPixels()
+
+    cam.scrollX =
+      width <= cam.width
+        ? (width - cam.width) / 2
+        : Phaser.Math.Clamp(cam.scrollX, 0, width - cam.width)
+
+    cam.scrollY =
+      height <= cam.height
+        ? (height - cam.height) / 2
+        : Phaser.Math.Clamp(cam.scrollY, 0, height - cam.height)
+  }
+
+  update(_time: number, delta: number): void {
+    if (!this.cursors) return
+
+    const step = (PAN_KEY_SPEED * delta) / 1000
+    const cam = this.cameras.main
+    let moved = false
+
+    if (this.cursors.left.isDown) { cam.scrollX -= step; moved = true }
+    if (this.cursors.right.isDown) { cam.scrollX += step; moved = true }
+    if (this.cursors.up.isDown) { cam.scrollY -= step; moved = true }
+    if (this.cursors.down.isDown) { cam.scrollY += step; moved = true }
+
+    if (moved) this.clampScroll()
   }
 
   // ── inputs from the bridge ────────────────────────────────
@@ -89,7 +172,39 @@ export class RoomScene extends Phaser.Scene {
 
   // ── pointer handling ──────────────────────────────────────
 
+  private handlePointerDown(pointer: Phaser.Input.Pointer): void {
+    this.panning = true
+    this.panMoved = false
+    this.panLastX = pointer.x
+    this.panLastY = pointer.y
+  }
+
   private handlePointerMove(pointer: Phaser.Input.Pointer): void {
+    if (this.panning && pointer.isDown) {
+      // pointer.x/y are already in game units (the ScaleManager divides out
+      // the canvas zoom), and the camera is at zoom 1, so a pointer delta is
+      // a world delta. Drag right => camera left, so the room follows the hand.
+      const dx = pointer.x - this.panLastX
+      const dy = pointer.y - this.panLastY
+
+      if (Math.abs(pointer.x - pointer.downX) > PAN_CLICK_SLOP ||
+          Math.abs(pointer.y - pointer.downY) > PAN_CLICK_SLOP) {
+        this.panMoved = true
+      }
+
+      if (this.panMoved) {
+        const cam = this.cameras.main
+        cam.scrollX -= dx
+        cam.scrollY -= dy
+        this.clampScroll()
+      }
+
+      this.panLastX = pointer.x
+      this.panLastY = pointer.y
+    }
+
+    // Hover tracking uses world coords, so the ghost follows the tile under
+    // the cursor no matter where the camera is scrolled.
     const col = Math.floor(pointer.worldX / TILE_SIZE)
     const row = Math.floor(pointer.worldY / TILE_SIZE)
     if (col === this.hoverCol && row === this.hoverRow) return
@@ -99,7 +214,20 @@ export class RoomScene extends Phaser.Scene {
     this.drawGhost()
   }
 
-  private handlePointerDown(pointer: Phaser.Input.Pointer): void {
+  private endPan(): void {
+    this.panning = false
+    this.panMoved = false
+  }
+
+  /**
+   * Placement fires on release, not press, so a drag can pan without also
+   * dropping furniture wherever the drag started.
+   */
+  private handlePointerUp(pointer: Phaser.Input.Pointer): void {
+    const wasDrag = this.panMoved
+    this.endPan()
+    if (wasDrag) return
+
     const col = Math.floor(pointer.worldX / TILE_SIZE)
     const row = Math.floor(pointer.worldY / TILE_SIZE)
 
@@ -167,8 +295,10 @@ export class RoomScene extends Phaser.Scene {
     if (!this.tileLayer) return
     this.tileLayer.removeAll(true)
 
+    // The canvas is sized by its container, not by the room — the room is
+    // meant to overflow the view and be panned around.
     const { cols, rows } = roomSize(this.room)
-    this.scale.resize(cols * TILE_SIZE, rows * TILE_SIZE)
+    this.clampScroll()
 
     for (let row = 0; row < rows; row++) {
       const line = this.room.layout[row] ?? ''

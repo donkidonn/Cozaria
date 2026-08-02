@@ -95,21 +95,28 @@ export const DEFAULT_LEGEND: TileLegend = {
  * rooms.ts, so changing them here really does resize the room; a themed room
  * can still ship its own hand-written layout of any size instead.
  *
- * 16x12 gives 176 floor tiles, which is enough for the big pieces (7x4 desk,
- * 4x6 bookshelf, 7x3 rug) to coexist. The old 12x9 had only 96 and they
- * couldn't all fit at once.
+ * The room is deliberately BIGGER than the viewport: at 24x18 and scale 3 it
+ * renders 1728x1296, which no laptop shows at once. The camera crops it and
+ * the player pans, exactly like the mockup — the room is a place you look
+ * into, not a picture scaled down to fit.
+ *
+ * Growing these is always safe. SHRINKING them would strand any furniture
+ * already placed outside the new bounds, and nothing re-validates placements
+ * on load, so don't reduce them without a migration that clears or clamps
+ * owned_items.placement.
  */
-export const ROOM_COLS = 16
-export const ROOM_ROWS = 12
+export const ROOM_COLS = 24
+export const ROOM_ROWS = 18
 
 /**
  * Canvas upscale factor. MUST be a whole number — a fractional zoom makes the
  * pixel art blurry and shimmery.
  *
- * At 16x12 the logical canvas is 384x288, so scale 2 renders 768x576 (fits a
- * laptop viewport under the header) and scale 3 would be 1152x864 (overflows).
+ * This is no longer used to size the canvas (the canvas fills its container
+ * now); it's the ratio between one art pixel and one screen pixel. 3 keeps the
+ * 24px tiles readable at desktop sizes.
  */
-export const ROOM_SCALE = 2
+export const ROOM_SCALE = 3
 
 /**
  * Canvas backdrop, shown wherever a layout cell is empty.

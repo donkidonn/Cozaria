@@ -15,6 +15,8 @@ export function WorldPage() {
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [draft, setDraft] = useState<PlacementDraft | null>(null)
+  // Closed by default so the room reads as the centrepiece, like the mockup.
+  const [shelfOpen, setShelfOpen] = useState(false)
 
   const load = useCallback(async () => {
     setError(null)
@@ -103,65 +105,44 @@ export function WorldPage() {
 
   return (
     <div className="flex h-full min-h-0">
-      {/* ─── centre: the room is the centrepiece ─────────────── */}
-      <div className="flex min-w-0 flex-1 flex-col overflow-auto">
-        <div className="flex flex-none justify-center p-6">
-          <div className="relative">
-            <RoomCanvas
-              placedItems={placedItems}
-              draft={draft}
-              onPlace={handlePlace}
-              onPickUp={handlePickUp}
-            />
+      {/* ─── centre: the room fills the column, camera crops it ── */}
+      <div className="relative min-w-0 flex-1 overflow-hidden">
+        <RoomCanvas
+          placedItems={placedItems}
+          draft={draft}
+          onPlace={handlePlace}
+          onPickUp={handlePickUp}
+        />
 
-            {/* Room tag — click-through so it can't block placing on the
-                tiles it covers. */}
-            <div className="pointer-events-none absolute left-4 top-4 rounded-md border-2 border-wood-dark bg-parchment px-3.5 py-1.5 bevel-parchment">
-              <p className="font-heading text-[0.95rem] leading-none text-mahogany">Your Study</p>
-              <p className="font-body text-[0.7rem] text-ink">
-                {placedItems.length === 0 ? 'just moved in — decorate it!' : `${placedItems.length} pieces placed`}
-              </p>
-            </div>
-
-            {/* Primary actions overlay the canvas, but step out of the way
-                while something is being placed. */}
-            {!draft && (
-              <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-3">
-                <Link
-                  to="/focus"
-                  className="whitespace-nowrap rounded-md border-[3px] border-wood-dark bg-gold px-5 py-2.5 font-heading text-base text-wood-dark plaque-lift transition hover:brightness-105"
-                >
-                  ✦ Start a Focus Session
-                </Link>
-                <Link
-                  to="/reviewers"
-                  className="whitespace-nowrap rounded-md border-[3px] border-wood-dark bg-wood px-4 py-2.5 font-heading text-base text-text-light plaque-lift-wood transition hover:brightness-110"
-                >
-                  Open Decks
-                </Link>
-              </div>
-            )}
-          </div>
+        {/* Overlays are click-through unless they're interactive, so they
+            never swallow a click meant for the tiles underneath. */}
+        <div className="pointer-events-none absolute left-4 top-4 rounded-md border-2 border-wood-dark bg-parchment px-3.5 py-1.5 bevel-parchment">
+          <p className="font-heading text-[0.95rem] leading-none text-mahogany">Your Study</p>
+          <p className="font-body text-[0.7rem] text-ink">
+            {placedItems.length === 0
+              ? 'just moved in — decorate it!'
+              : `${placedItems.length} pieces placed · drag to look around`}
+          </p>
         </div>
 
-        {/* ─── decorating tray under the stage ──────────────── */}
-        <div className="flex flex-col gap-4 px-6 pb-6">
-          {notice && (
-            <div className="rounded-md border-2 border-mahogany bg-mahogany/20 px-4 py-2 font-body text-sm text-text-light">
-              {notice}
-            </div>
-          )}
+        {notice && (
+          <div className="pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 rounded-md border-2 border-mahogany bg-mahogany px-4 py-2 font-body text-sm text-text-light">
+            {notice}
+          </div>
+        )}
 
-          {draft && draftItem ? (
-            <div className="flex flex-wrap items-center gap-3 rounded-md border-2 border-gold bg-wood px-4 py-2">
-              <ItemSprite spriteKey={draft.spriteKey} size={32} />
-              <span className="font-heading text-sm text-gold-glow">
-                Placing {draftItem.name}
-              </span>
-              <span className="font-body text-xs text-parchment">
-                Green means it fits, red means it doesn&apos;t. Esc to cancel.
-              </span>
-              <div className="ml-auto flex gap-2">
+        {/* ─── bottom overlay: actions, then the shelf drawer ─── */}
+        <div className="absolute inset-x-0 bottom-0 flex flex-col">
+          <div className="pointer-events-none flex justify-center px-4 pb-3">
+            {draft && draftItem ? (
+              <div className="pointer-events-auto flex flex-wrap items-center gap-3 rounded-md border-[3px] border-gold bg-wood px-4 py-2">
+                <ItemSprite spriteKey={draft.spriteKey} size={32} />
+                <span className="font-heading text-sm text-gold-glow">
+                  Placing {draftItem.name}
+                </span>
+                <span className="font-body text-xs text-parchment">
+                  Green fits, red doesn&apos;t. Esc to cancel.
+                </span>
                 {draftItem.placement && (
                   <button
                     onClick={returnToInventory}
@@ -177,82 +158,97 @@ export function WorldPage() {
                   Cancel
                 </button>
               </div>
-            </div>
-          ) : (
-            <p className="font-body text-xs text-muted">
-              Pick a piece from your shelf, then click a tile to set it down. Click a piece
-              already in the room to move it again.
-            </p>
-          )}
+            ) : (
+              <div className="pointer-events-auto flex items-center gap-3">
+                <Link
+                  to="/focus"
+                  className="whitespace-nowrap rounded-md border-[3px] border-wood-dark bg-gold px-5 py-2.5 font-heading text-base text-wood-dark plaque-lift transition hover:brightness-105"
+                >
+                  ✦ Start a Focus Session
+                </Link>
+                <Link
+                  to="/reviewers"
+                  className="whitespace-nowrap rounded-md border-[3px] border-wood-dark bg-wood px-4 py-2.5 font-heading text-base text-text-light plaque-lift-wood transition hover:brightness-110"
+                >
+                  Open Decks
+                </Link>
+              </div>
+            )}
+          </div>
 
-          <section>
-            <div className="mb-3 flex items-baseline gap-3">
-              <h3 className="font-heading text-lg text-gold-glow">Your Shelf</h3>
+          <div className="border-t-[3px] border-wood-deep bg-wood-panel bevel-topbar">
+            <button
+              onClick={() => setShelfOpen((v) => !v)}
+              aria-expanded={shelfOpen}
+              className="flex w-full items-center gap-3 px-4 py-2 text-left transition hover:brightness-110"
+            >
+              <span className="font-heading text-base text-gold-glow">Your Shelf</span>
               <span className="font-body text-xs text-muted">
                 {stored.length} waiting · {placedItems.length} in the room
               </span>
-            </div>
+              <span className="ml-auto font-heading text-sm text-parchment">
+                {shelfOpen ? 'Hide ▾' : 'Open ▴'}
+              </span>
+            </button>
 
-            {loading ? (
-              <p className="font-heading text-base text-gold-glow">Loading your items…</p>
-            ) : error ? (
-              <div className="flex flex-col items-start gap-3">
-                <p className="font-body text-mahogany">{error}</p>
-                <button
-                  onClick={() => { setLoading(true); load() }}
-                  className="rounded-md border-2 border-wood-dark bg-gold px-4 py-2 font-heading text-sm text-wood-dark bevel-gold"
-                >
-                  Retry
-                </button>
-              </div>
-            ) : items.length === 0 ? (
-              <div className="rounded-md border-2 border-dashed border-wood-light p-6">
-                <p className="font-heading text-lg text-parchment">No items yet</p>
-                <p className="mt-1 font-body text-sm text-muted">
-                  Visit the Shop to spend your coins on cozy decorations!
-                </p>
-              </div>
-            ) : stored.length === 0 ? (
-              <div className="rounded-md border-2 border-dashed border-wood-light p-6">
-                <p className="font-heading text-base text-parchment">Shelf is empty</p>
-                <p className="mt-1 font-body text-sm text-muted">
-                  Everything you own is already in the room.
-                </p>
-              </div>
-            ) : (
-              <ul className="flex flex-wrap gap-3">
-                {stored.map((item) => {
-                  const sprite = getSprite(item.spriteKey)
-                  const selected = draft?.ownedItemId === item.id
+            {shelfOpen && (
+              <div className="max-h-[228px] overflow-y-auto border-t-2 border-wood-deep px-4 py-3">
+                {loading ? (
+                  <p className="font-heading text-base text-gold-glow">Loading your items…</p>
+                ) : error ? (
+                  <div className="flex items-center gap-3">
+                    <p className="font-body text-sm text-mahogany">{error}</p>
+                    <button
+                      onClick={() => { setLoading(true); load() }}
+                      className="rounded-md border-2 border-wood-dark bg-gold px-4 py-1.5 font-heading text-sm text-wood-dark bevel-gold"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                ) : items.length === 0 ? (
+                  <p className="font-body text-sm text-muted">
+                    No items yet — visit the Shop to spend your coins on cozy decorations.
+                  </p>
+                ) : stored.length === 0 ? (
+                  <p className="font-body text-sm text-muted">
+                    Everything you own is already in the room. Click a piece to move it.
+                  </p>
+                ) : (
+                  <ul className="flex flex-wrap gap-3">
+                    {stored.map((item) => {
+                      const sprite = getSprite(item.spriteKey)
+                      const selected = draft?.ownedItemId === item.id
 
-                  return (
-                    <li key={item.id}>
-                      <button
-                        onClick={() => selectFromInventory(item)}
-                        disabled={!sprite}
-                        title={item.description ?? item.name}
-                        className={`flex w-[132px] flex-col items-center gap-2 rounded-md border-[3px] p-3 transition ${
-                          selected
-                            ? 'border-gold bg-gold/20'
-                            : 'border-wood-dark bg-wood bevel-wood hover:brightness-110'
-                        } disabled:cursor-not-allowed disabled:opacity-50`}
-                      >
-                        <ItemSprite spriteKey={item.spriteKey} size={72} />
-                        <span className="text-center font-heading text-xs text-gold-glow">
-                          {item.name}
-                        </span>
-                        {sprite && (
-                          <span className="text-center font-body text-[0.65rem] text-parchment">
-                            {formatFootprint(sprite)} · {LAYER_HINT[sprite.layer]}
-                          </span>
-                        )}
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
+                      return (
+                        <li key={item.id}>
+                          <button
+                            onClick={() => selectFromInventory(item)}
+                            disabled={!sprite}
+                            title={item.description ?? item.name}
+                            className={`flex w-[124px] flex-col items-center gap-1.5 rounded-md border-[3px] p-2.5 transition ${
+                              selected
+                                ? 'border-gold bg-gold/20'
+                                : 'border-wood-dark bg-wood bevel-wood hover:brightness-110'
+                            } disabled:cursor-not-allowed disabled:opacity-50`}
+                          >
+                            <ItemSprite spriteKey={item.spriteKey} size={64} />
+                            <span className="text-center font-heading text-xs text-gold-glow">
+                              {item.name}
+                            </span>
+                            {sprite && (
+                              <span className="text-center font-body text-[0.65rem] text-parchment">
+                                {formatFootprint(sprite)} · {LAYER_HINT[sprite.layer]}
+                              </span>
+                            )}
+                          </button>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                )}
+              </div>
             )}
-          </section>
+          </div>
         </div>
       </div>
 
