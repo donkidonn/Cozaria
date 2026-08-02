@@ -15,15 +15,88 @@
   --color-green: #5E8C46;
   --color-text-light: #F3E3C4;
 
+  /* Shell shades from the desktop handoff. The carved-wood look needs a
+     lighter and a darker shade of each surface for the bevel; these are those
+     shades, named so no component has to hardcode a hex. */
+  --color-wood-panel: #5b3a20;        /* top bar + right panel */
+  --color-wood-panel-light: #7a512e;  /* its bevel highlight */
+  --color-wood-rail: #4a3320;         /* left nav rail */
+  --color-wood-rail-light: #5e4128;   /* its bevel highlight */
+  --color-wood-deep: #2A1810;         /* deepest border / bevel shadow */
+  --color-night: #1d1006;             /* app backdrop behind the shell */
+
+  --color-gold-shadow: #9c6b1e;
+  --color-mahogany-light: #c25543;
+  --color-mahogany-dark: #5e1f15;
+  --color-parchment-shadow: #d4ba84;
+  --color-parchment-glow: #fff7e4;
+  --color-green-light: #79a85e;
+  --color-green-dark: #2c4a22;
+
+  /* Text on parchment surfaces */
+  --color-ink: #5a4226;       /* body copy */
+  --color-ink-soft: #9c7a3e;  /* small caps labels */
+  --color-muted: #cbb488;     /* de-emphasised chrome (settings, hints) */
+
   /* Fonts */
   --font-heading: "Pixelify Sans", cursive;
   --font-body: "Nunito", sans-serif;
 }
 
+/* ── Carved-wood bevels ───────────────────────────────────────
+   Hard 2px inset highlights/shadows, never blurred — this is what makes a
+   surface read as carved pixel-art rather than a flat div. One utility per
+   surface so the shade pairs stay consistent across the app. */
+
+@utility bevel-wood {
+  box-shadow: inset 2px 2px 0 var(--color-wood-light),
+              inset -2px -2px 0 var(--color-wood-deep);
+}
+
+@utility bevel-gold {
+  box-shadow: inset 2px 2px 0 var(--color-gold-glow),
+              inset -2px -2px 0 var(--color-gold-shadow);
+}
+
+@utility bevel-parchment {
+  box-shadow: inset 2px 2px 0 var(--color-parchment-light),
+              inset -2px -2px 0 var(--color-parchment-shadow);
+}
+
+@utility bevel-panel {
+  box-shadow: inset 2px 0 0 var(--color-wood-panel-light);
+}
+
+@utility bevel-rail {
+  box-shadow: inset -2px 0 0 var(--color-wood-rail-light);
+}
+
+@utility bevel-topbar {
+  box-shadow: inset 0 2px 0 var(--color-wood-panel-light);
+}
+
+/* Sunk channel used by progress bars. */
+@utility bevel-sunk {
+  box-shadow: inset 1px 1px 0 var(--color-wood-deep);
+}
+
+/* Plaque lift — the hard drop shadow under raised buttons. */
+@utility plaque-lift {
+  box-shadow: inset 2px 2px 0 var(--color-gold-glow),
+              inset -2px -2px 0 var(--color-gold-shadow),
+              0 5px 0 rgb(0 0 0 / 0.4);
+}
+
+@utility plaque-lift-wood {
+  box-shadow: inset 2px 2px 0 var(--color-wood-light),
+              inset -2px -2px 0 var(--color-wood-deep),
+              0 5px 0 rgb(0 0 0 / 0.4);
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
-  background-color: var(--color-wood-dark);
+  background-color: var(--color-night);
   color: var(--color-text-light);
 }
 
